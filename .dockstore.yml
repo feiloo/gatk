@@ -180,6 +180,7 @@ workflows:
              - master
              - ah_var_store
              - EchoCallset
+             - gg_VS-1335_BgzipOnExtract
          tags:
              - /.*/
    - name: GvsImportGenomes
