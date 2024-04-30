@@ -2,6 +2,8 @@ version 1.0
 
 import "GvsUtils.wdl" as Utils
 
+# A lonely comment
+
 workflow GvsExtractCallset {
   input {
     Boolean go = true
@@ -73,7 +75,7 @@ workflow GvsExtractCallset {
   Boolean emit_ads = true
   Boolean write_cost_to_db = true
 
-  String intervals_file_extension = if (zero_pad_output_vcf_filenames) then '-~{output_file_base_name}.vcf.gz.interval_list' else '-scattered.interval_list'
+  String intervals_file_extension = if (zero_pad_output_vcf_filenames) then '-~{output_file_base_name}.vcf.bgz.interval_list' else '-scattered.interval_list'
 
   if (!defined(git_hash) || !defined(gatk_docker) || !defined(cloud_sdk_docker) || !defined(variants_docker)) {
     call Utils.GetToolVersions {
@@ -200,7 +202,7 @@ workflow GvsExtractCallset {
 
   scatter(i in range(length(SplitIntervals.interval_files))) {
     String interval_filename = basename(SplitIntervals.interval_files[i])
-    String vcf_filename = if (zero_pad_output_vcf_filenames) then sub(interval_filename, ".interval_list", "") else "~{output_file_base_name}_${i}.vcf.gz"
+    String vcf_filename = if (zero_pad_output_vcf_filenames) then sub(interval_filename, ".interval_list", "") else "~{output_file_base_name}_${i}.vcf.bgz"
 
     call ExtractTask {
       input:

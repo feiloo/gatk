@@ -310,6 +310,7 @@ workflows:
          branches:
              - master
              - ah_var_store
+             - gg_VS-1335_BgzipOnExtract
          tags:
              - /.*/
    - name: GvsQuickstartHailIntegration
@@ -319,6 +320,7 @@ workflows:
          branches:
              - master
              - ah_var_store
+             - gg_VS-1335_BgzipOnExtract
          tags:
              - /.*/
    - name: GvsQuickstartIntegration
@@ -329,6 +331,7 @@ workflows:
              - master
              - ah_var_store
              - rc-VS-1282-and-only-write-variant-mt
+             - gg_VS-1335_BgzipOnExtract
          tags:
              - /.*/
    - name: GvsIngestTieout
