@@ -75,7 +75,7 @@ workflow GvsExtractCallset {
   Boolean emit_ads = true
   Boolean write_cost_to_db = true
 
-  String intervals_file_extension = if (zero_pad_output_vcf_filenames) then '-~{output_file_base_name}.vcf.bgz.interval_list' else '-scattered.interval_list'
+  String intervals_file_extension = if (zero_pad_output_vcf_filenames) then '-~{output_file_base_name}.interval_list' else '-scattered.interval_list'
 
   if (!defined(git_hash) || !defined(gatk_docker) || !defined(cloud_sdk_docker) || !defined(variants_docker)) {
     call Utils.GetToolVersions {
@@ -202,7 +202,7 @@ workflow GvsExtractCallset {
 
   scatter(i in range(length(SplitIntervals.interval_files))) {
     String interval_filename = basename(SplitIntervals.interval_files[i])
-    String vcf_filename = if (zero_pad_output_vcf_filenames) then sub(interval_filename, ".interval_list", "") else "~{output_file_base_name}_${i}.vcf.bgz"
+    String vcf_filename = if (zero_pad_output_vcf_filenames) then sub(interval_filename, ".interval_list", "") else "~{output_file_base_name}_${i}"
 
     call ExtractTask {
       input:
@@ -229,7 +229,7 @@ workflow GvsExtractCallset {
         fq_filter_set_tranches_table          = if (use_VQSR_lite) then none else fq_filter_set_tranches_table,
         filter_set_name                       = filter_set_name,
         drop_state                            = drop_state,
-        output_file                           = vcf_filename,
+        output_file                           = vcf_filename + ".vcf.bgz",
         output_gcs_dir                        = output_gcs_dir,
         max_last_modified_timestamp           = GetBQTablesMaxLastModifiedTimestamp.max_last_modified_timestamp,
         extract_preemptible_override          = extract_preemptible_override,
