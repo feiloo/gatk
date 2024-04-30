@@ -2,7 +2,7 @@ version 1.0
 
 import "GvsUtils.wdl" as Utils
 
-# A lonely comment
+# A lonely comment.
 
 workflow GvsExtractCallset {
   input {
