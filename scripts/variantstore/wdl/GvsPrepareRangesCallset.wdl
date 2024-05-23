@@ -62,6 +62,14 @@ workflow GvsPrepareCallset {
       cloud_sdk_docker = effective_cloud_sdk_docker,
   }
 
+  call Utils.GetExtractVetTableVersion {
+    input:
+      project_id = query_project,
+      dataset_name = dataset_name,
+      table_name = "vet_001",
+      cloud_sdk_docker = effective_cloud_sdk_docker,
+  }
+
   call PrepareRangesCallsetTask {
     input:
       call_set_identifier             = call_set_identifier,
@@ -70,6 +78,7 @@ workflow GvsPrepareCallset {
       query_project                   = query_project,
       query_labels                    = query_labels,
       fq_refvet_dataset               = fq_refvet_dataset,
+      vet_table_version               = GetExtractVetTableVersion.version,
       fq_sample_mapping_table         = fq_sample_mapping_table,
       fq_temp_table_dataset           = fq_temp_table_dataset,
       fq_destination_dataset          = fq_destination_dataset,
@@ -99,9 +108,11 @@ task PrepareRangesCallsetTask {
 
     Boolean control_samples
     String fq_refvet_dataset
+    String vet_table_version
     String fq_sample_mapping_table
     String fq_temp_table_dataset
     String fq_destination_dataset
+
     Array[String]? query_labels
     Int temp_table_ttl_in_hours = 24
     Boolean only_output_vet_tables
@@ -142,6 +153,7 @@ task PrepareRangesCallsetTask {
           --call_set_identifier ~{call_set_identifier} \
           --control_samples ~{control_samples} \
           --fq_ranges_dataset ~{fq_refvet_dataset} \
+          --vet-table-version ~{vet_table_version} \
           --fq_temp_table_dataset ~{fq_temp_table_dataset} \
           --fq_destination_dataset ~{fq_destination_dataset} \
           --destination_cohort_table_prefix ~{destination_cohort_table_prefix} \

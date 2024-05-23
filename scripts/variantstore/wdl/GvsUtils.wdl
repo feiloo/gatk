@@ -982,8 +982,7 @@ task IsUsingCompressedReferences {
 
 task GetExtractVetTableVersion {
   input {
-    String query_project
-    String data_project
+    String project_id
     String dataset_name
     String table_name
     String cloud_sdk_docker
@@ -993,11 +992,11 @@ task GetExtractVetTableVersion {
     PS4='\D{+%F %T} \w $ '
     set -o errexit -o nounset -o pipefail -o xtrace
 
-    bq --apilog=false query --project_id=~{query_project} --format=csv --use_legacy_sql=false '
+    bq --apilog=false query --project_id=~{project_id} --format=csv --use_legacy_sql=false '
       SELECT
         count(1)
       FROM
-        `~{data_project}.~{dataset_name}.INFORMATION_SCHEMA.COLUMNS`
+        `~{dataset_name}.INFORMATION_SCHEMA.COLUMNS`
       WHERE
         table_name = "~{table_name}" AND column_name = "call_PS" ' | sed 1d > count.txt
 

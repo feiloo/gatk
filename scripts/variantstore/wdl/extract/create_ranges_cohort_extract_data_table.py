@@ -292,6 +292,7 @@ def make_extract_table(call_set_identifier,
                        query_labels,
                        fq_temp_table_dataset,
                        fq_destination_dataset,
+                       vet_table_version,
                        destination_table_prefix,
                        fq_sample_mapping_table,
                        temp_table_ttl_hours,
@@ -386,6 +387,10 @@ if __name__ == '__main__':
                         help='true for control samples only, false for participant samples only', default='false')
     parser.add_argument('--fq_ranges_dataset', type=str, help='project.dataset location of ranges/vet data',
                         required=True)
+    parser.add_argument('--vet_table_version', type=str,
+                        help='Version of the vet ranges extract table - for maintaining backwards-compatibility. '
+                             '2=Echo, 1=Delta and before',
+                        required=True)
     parser.add_argument('--fq_temp_table_dataset', type=str,
                         help='project.dataset location where results should be stored', required=True)
     parser.add_argument('--fq_destination_dataset', type=str,
@@ -435,6 +440,7 @@ if __name__ == '__main__':
                        args.query_labels,
                        args.fq_temp_table_dataset,
                        args.fq_destination_dataset,
+                       args.vet_table_version,
                        args.destination_cohort_table_prefix,
                        args.fq_sample_mapping_table,
                        args.ttl,

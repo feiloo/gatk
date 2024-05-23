@@ -198,8 +198,7 @@ workflow GvsExtractCallset {
 
   call Utils.GetExtractVetTableVersion {
     input:
-      query_project = query_project,
-      data_project = project_id,
+      project_id = project_id,
       dataset_name = dataset_name,
       table_name = fq_ranges_cohort_vet_extract_table_name,
       cloud_sdk_docker = effective_cloud_sdk_docker,
