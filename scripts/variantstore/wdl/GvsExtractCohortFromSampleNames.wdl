@@ -45,24 +45,33 @@ workflow GvsExtractCohortFromSampleNames {
     String? git_branch_or_tag
     String? gatk_docker
     File? gatk_override
+    String? basic_docker
     String? cloud_sdk_docker
     String? variants_docker
   }
 
   Boolean write_cost_to_db = if ((gvs_project != destination_project_id) || (gvs_project != query_project)) then false else true
 
-  if (!defined(git_branch_or_tag) || !defined(gatk_docker)  || !defined(cloud_sdk_docker) || !defined(variants_docker)) {
+  if (!defined(git_branch_or_tag) || !defined(basic_docker) || !defined(gatk_docker)  || !defined(cloud_sdk_docker) || !defined(variants_docker)) {
     call Utils.GetToolVersions {
       input:
         git_branch_or_tag = git_branch_or_tag,
     }
   }
 
+  String effective_basic_docker = select_first([basic_docker, GetToolVersions.basic_docker])
   String effective_cloud_sdk_docker = select_first([cloud_sdk_docker, GetToolVersions.cloud_sdk_docker])
   String effective_gatk_docker = select_first([gatk_docker, GetToolVersions.gatk_docker])
   String effective_git_hash = select_first([git_branch_or_tag, GetToolVersions.git_hash])
   String effective_variants_docker = select_first([variants_docker, GetToolVersions.variants_docker])
 
+  if (!defined(cohort_sample_names_array) && !defined(cohort_sample_names)) {
+    call Utils.TerminateWorkflow {
+      input:
+        message = "GvsExtractCohortFromSampleNames failed. Either cohort_sample_names_array or cohort_sample_names must be defined",
+        basic_docker = effective_basic_docker,
+    }
+  }
 
   call Utils.GetBQTableLastModifiedDatetime as SamplesTableDatetimeCheck {
     input:
