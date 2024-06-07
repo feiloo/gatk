@@ -478,7 +478,7 @@ public final class CreateVariantIngestFiles extends VariantWalker {
         SAMSequenceDictionary seqDictionary = initializeGQConfigurationAndIntervals();
 
         if (enableReferenceRanges && !refRangesRowsExist) {
-            refCreator = new RefCreator(sampleIdentifierForOutputFileName, sampleId, tableNumber, seqDictionary, gqStatesToIgnore, outputDir, outputType, enableReferenceRanges, projectID, datasetName, storeCompressedReferences);
+            refCreator = new RefCreator(sampleIdentifierForOutputFileName, sampleId, tableNumber, seqDictionary, gqStatesToIgnore, outputDir, outputType, enableReferenceRanges, projectID, datasetName, storeCompressedReferences, refRangesRowSchema);
         }
 
         if (enableVet && !vetRowsExist) {
