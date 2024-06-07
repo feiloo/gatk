@@ -9,10 +9,9 @@ import org.apache.parquet.io.OutputFile;
 import org.apache.parquet.schema.MessageType;
 import org.json.JSONObject;
 
-
 import java.io.IOException;
 
-public class GvsVariantParquetFileWriter extends ParquetWriter<JSONObject> {
+public class GvsReferenceParquetFileWriter extends ParquetWriter<JSONObject> {
 
 //    GvsVariantParquetFileWriter(
 //            OutputFile file,
@@ -36,16 +35,16 @@ public class GvsVariantParquetFileWriter extends ParquetWriter<JSONObject> {
      * @param codecName
      * @throws IOException
      */
-    public GvsVariantParquetFileWriter(
+    public GvsReferenceParquetFileWriter(
             Path file,
             MessageType schema,
             boolean enableDictionary,
             CompressionCodecName codecName
     ) throws IOException {
-        super(file, new GvsVariantWriteSupport(schema), codecName, DEFAULT_BLOCK_SIZE, DEFAULT_PAGE_SIZE, enableDictionary, false);
+        super(file, new GvsReferenceWriteSupport(schema), codecName, DEFAULT_BLOCK_SIZE, DEFAULT_PAGE_SIZE, enableDictionary, false);
     }
 
-    GvsVariantParquetFileWriter(
+    GvsReferenceParquetFileWriter(
             Path file,
             GvsVariantWriteSupport writeSupport,
             CompressionCodecName compressionCodecName,
