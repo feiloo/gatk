@@ -11,13 +11,13 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.List;
 
-public class GvsVariantWriteSupport extends WriteSupport<JSONObject> {
+public class GvsReferenceWriteSupport extends WriteSupport<JSONObject> {
     MessageType schema;
     RecordConsumer recordConsumer;
     List<ColumnDescriptor> cols;
 
     // support specifying encodings and compression?
-    public GvsVariantWriteSupport(MessageType schema) {
+    public GvsReferenceWriteSupport(MessageType schema) {
         this.schema = schema;
         this.cols = schema.getColumns();
     }

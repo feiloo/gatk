@@ -2,8 +2,11 @@ package org.broadinstitute.hellbender.tools.gvs.ingest;
 
 import htsjdk.samtools.SAMSequenceDictionary;
 import htsjdk.variant.variantcontext.VariantContext;
+import org.apache.hadoop.fs.Path;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.parquet.hadoop.metadata.CompressionCodecName;
+import org.apache.parquet.schema.MessageType;
 import org.broadinstitute.hellbender.exceptions.UserException;
 import org.broadinstitute.hellbender.tools.gvs.common.CommonCode;
 import org.broadinstitute.hellbender.tools.gvs.common.GQStateEnum;
@@ -14,6 +17,7 @@ import org.broadinstitute.hellbender.utils.GenomeLocParser;
 import org.broadinstitute.hellbender.utils.GenomeLocSortedSet;
 import org.broadinstitute.hellbender.utils.SimpleInterval;
 import org.broadinstitute.hellbender.utils.gvs.bigquery.BigQueryUtils;
+import org.broadinstitute.hellbender.utils.gvs.parquet.GvsReferenceParquetFileWriter;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +35,7 @@ public final class RefCreator {
 
     private final boolean writeReferenceRanges;
     private final Long sampleId;
+    private GvsReferenceParquetFileWriter refParquetFileWriter = null;
     private SimpleInterval previousInterval;
     private final Set<GQStateEnum> gqStatesToIgnore;
     private final GenomeLocSortedSet coverageLocSortedSet;
@@ -43,7 +48,7 @@ public final class RefCreator {
         return BigQueryUtils.doRowsExistFor(projectId, datasetName, REF_RANGES_FILETYPE_PREFIX + tableNumber, SchemaUtils.SAMPLE_ID_FIELD_NAME, sampleId);
     }
 
-    public RefCreator(String sampleIdentifierForOutputFileName, Long sampleId, String tableNumber, SAMSequenceDictionary seqDictionary, Set<GQStateEnum> gqStatesToIgnore, final File outputDirectory, final CommonCode.OutputType outputType, final boolean writeReferenceRanges, final String projectId, final String datasetName, final boolean storeCompressedReferences) {
+    public RefCreator(String sampleIdentifierForOutputFileName, Long sampleId, String tableNumber, SAMSequenceDictionary seqDictionary, Set<GQStateEnum> gqStatesToIgnore, final File outputDirectory, final CommonCode.OutputType outputType, final boolean writeReferenceRanges, final String projectId, final String datasetName, final boolean storeCompressedReferences, final MessageType parquetSchema) {
         this.sampleId = sampleId;
         this.outputType = outputType;
         this.writeReferenceRanges = writeReferenceRanges;
@@ -65,8 +70,12 @@ public final class RefCreator {
                     case TSV:
                         refRangesWriter = new RefRangesTsvWriter(refOutputFile.getCanonicalPath());
                         break;
-                    case AVRO:
+                    case AVRO: // when do we use this/!?!
                         refRangesWriter = new RefRangesAvroWriter(refOutputFile.getCanonicalPath());
+                        break;
+                    case PARQUET:
+                        final File parquetOutputFile = new File(outputDirectory, REF_RANGES_FILETYPE_PREFIX + tableNumber + PREFIX_SEPARATOR + sampleIdentifierForOutputFileName + ".parquet");
+                        refParquetFileWriter = new GvsReferenceParquetFileWriter(new Path(parquetOutputFile.toURI()), parquetSchema, false, CompressionCodecName.SNAPPY);
                         break;
                 }
             }
