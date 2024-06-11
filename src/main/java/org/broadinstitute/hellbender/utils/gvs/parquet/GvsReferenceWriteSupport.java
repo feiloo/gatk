@@ -6,6 +6,7 @@ import org.apache.parquet.hadoop.api.WriteSupport;
 import org.apache.parquet.io.api.Binary;
 import org.apache.parquet.io.api.RecordConsumer;
 import org.apache.parquet.schema.MessageType;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -17,7 +18,7 @@ public class GvsReferenceWriteSupport extends WriteSupport<JSONObject> {
     List<ColumnDescriptor> cols;
 
     // support specifying encodings and compression?
-    public GvsReferenceWriteSupport(MessageType schema) {
+    public GvsReferenceWriteSupport(@NotNull MessageType schema) {
         this.schema = schema;
         this.cols = schema.getColumns();
     }
@@ -37,19 +38,19 @@ public class GvsReferenceWriteSupport extends WriteSupport<JSONObject> {
      * @param vetRow one record to write to the previously provided record consumer
      */
     @Override
-    public void write(JSONObject vetRow) {
+    public void write(JSONObject refRow) {
         recordConsumer.startMessage();
         // let's iterate through the possible values we have in the JSON
         for (int field = 0; field < cols.size(); ++field) {
             ColumnDescriptor col = cols.get(field);
             String columnName = col.getPrimitiveType().getName();
             // if this isn't here, we're supposed to just skip right over it
-            if (vetRow.has(columnName) && vetRow.get(columnName) != JSONObject.NULL) {
+            if (refRow.has(columnName) && refRow.get(columnName) != JSONObject.NULL) {
                 recordConsumer.startField(columnName, field);
                 switch(col.getPrimitiveType().getPrimitiveTypeName()) {
-                    case INT64 -> recordConsumer.addLong(vetRow.getLong(columnName));
-                    case FLOAT -> recordConsumer.addFloat(vetRow.getFloat(columnName));
-                    case BINARY -> recordConsumer.addBinary(Binary.fromString(vetRow.getString(columnName)));
+                    case INT64 -> recordConsumer.addLong(refRow.getLong(columnName));
+                    case FLOAT -> recordConsumer.addFloat(refRow.getFloat(columnName));
+                    case BINARY -> recordConsumer.addBinary(Binary.fromString(refRow.getString(columnName)));
                     default -> throw new UnsupportedOperationException("Haven't implemented other types yet! Can't process column "+columnName+ "with type "+col.getPrimitiveType().getName());
                 }
                 recordConsumer.endField(columnName, field);

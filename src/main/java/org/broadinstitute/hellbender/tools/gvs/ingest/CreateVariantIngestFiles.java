@@ -208,10 +208,9 @@ public final class CreateVariantIngestFiles extends VariantWalker {
             }
             """);
 
-    /* Not yet outputting ref_ranges rows */
     public final MessageType refRangesRowSchema = MessageTypeParser
             .parseMessageType("""
-            message VariantRow {
+            message RefRangesRow {
             	required int64 sample_id;
             	required int64 location;
             	required int64 length;
