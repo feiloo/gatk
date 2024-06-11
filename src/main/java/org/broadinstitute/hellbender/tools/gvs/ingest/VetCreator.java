@@ -149,8 +149,6 @@ public class VetCreator {
                 exception.printStackTrace();
             }
         }
-
-
     }
 
     public void closeTool() {
