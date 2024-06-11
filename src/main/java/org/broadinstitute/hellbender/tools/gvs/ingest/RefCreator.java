@@ -78,9 +78,7 @@ public final class RefCreator {
                         refRangesWriter = new RefRangesAvroWriter(refOutputFile.getCanonicalPath());
                         break;
                     case PARQUET:
-                        System.out.println("Hello Parquet");
                         refRangesParquetFileWriter = new GvsReferenceParquetFileWriter(new Path(refOutputFile.toURI()), parquetSchema, false, CompressionCodecName.SNAPPY);
-                        System.out.println("Goodbye Parquet");
                         break;
                 }
             }
