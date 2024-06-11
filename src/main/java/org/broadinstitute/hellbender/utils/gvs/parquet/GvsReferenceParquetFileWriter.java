@@ -13,20 +13,6 @@ import java.io.IOException;
 
 public class GvsReferenceParquetFileWriter extends ParquetWriter<JSONObject> {
 
-//    GvsVariantParquetFileWriter(
-//            OutputFile file,
-//            ParquetFileWriter.Mode mode,
-//            GVSVariantWriteSupport writeSupport,
-//            CompressionCodecName compressionCodecName,
-//            long rowGroupSize,
-//            boolean validating,
-//            Configuration conf,
-//            int maxPaddingSize,
-//            ParquetProperties encodingProps,
-//            FileEncryptionProperties encryptionProperties) throws IOException {
-//        super(file, mode, writeSupport, compressionCodecName, rowGroupSize, validating, conf, maxPaddingSize, encodingProps, encryptionProperties);
-//    }
-
     /**
      * This is very deprecated, and we'll need to figure out how to do this from a builder once it works!
      * @param file
@@ -68,6 +54,16 @@ public class GvsReferenceParquetFileWriter extends ParquetWriter<JSONObject> {
                 conf);
     }
 
+    public static JSONObject writeJson(long location, Long sampleId, int length, String state) {
+        JSONObject record = new JSONObject();
+        record.put("location", location);
+        record.put("sample_id", sampleId);
+        record.put("length", length);
+        record.put("state", state);
+        return record;
+    }
+
+
     public static class Builder extends ParquetWriter.Builder<JSONObject, Builder> {
         private MessageType schema = null;
 
@@ -89,37 +85,10 @@ public class GvsReferenceParquetFileWriter extends ParquetWriter<JSONObject> {
             return this;
         }
 
-//        @Override
-//        protected GVSVariantWriteSupport getWriteSupport(Configuration conf) {
-//            return getWriteSupport((Configuration) null);
-//        }
-
         @Override
         protected GvsVariantWriteSupport getWriteSupport(Configuration conf) {
             return new GvsVariantWriteSupport(schema);
         }
-
-//        @Override
-//        public Builder withExtraMetaData(Map<String, String> extraMetaData) {
-//            return super.withExtraMetaData(extraMetaData);
-//        }
-
-
-
     }
 
 }
-
-/*
-public class GvsVariantParquetFileWriter extends ParquetWriter<JSONObject> {
-    @SuppressWarnings("deprecation")
-    public GvsVariantParquetFileWriter(
-            Path file,
-            MessageType schema,
-            boolean enableDictionary,
-            CompressionCodecName codecName
-    ) throws IOException {
-        // update this to the new constructor soon
-        super(file, new GVSVariantWriteSupport(schema), codecName, DEFAULT_BLOCK_SIZE, DEFAULT_PAGE_SIZE, enableDictionary, false);
-    }
-}*/

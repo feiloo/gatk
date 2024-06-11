@@ -139,11 +139,7 @@ public final class RefCreator {
                                     }
                                     break;
                                 case PARQUET:
-                                    JSONObject record = new JSONObject();
-                                    record.put("location", SchemaUtils.encodeLocation(variantChr, localStart));
-                                    record.put("sample_id", sampleId);
-                                    record.put("length", length);
-                                    record.put("state", getGQStateEnum(variant.getGenotype(0).getGQ()).getValue());
+                                    JSONObject record = GvsReferenceParquetFileWriter.writeJson(SchemaUtils.encodeLocation(variantChr, localStart), sampleId, length, getGQStateEnum(variant.getGenotype(0).getGQ()).getValue());
                                     refRangesParquetFileWriter.write(record);
                                     break;
 
