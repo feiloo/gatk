@@ -63,6 +63,13 @@ public class GvsReferenceParquetFileWriter extends ParquetWriter<JSONObject> {
         return record;
     }
 
+    public static JSONObject writeCompressed(long packedData, long sampleId) {
+        JSONObject compressedRecord = new JSONObject();
+        compressedRecord.put("packedData", packedData);
+        compressedRecord.put("sample_id", sampleId);
+        return compressedRecord;
+    }
+
 
     public static class Builder extends ParquetWriter.Builder<JSONObject, Builder> {
         private MessageType schema = null;

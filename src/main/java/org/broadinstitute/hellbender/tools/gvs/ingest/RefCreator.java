@@ -139,8 +139,17 @@ public final class RefCreator {
                                     }
                                     break;
                                 case PARQUET:
-                                    JSONObject record = GvsReferenceParquetFileWriter.writeJson(SchemaUtils.encodeLocation(variantChr, localStart), sampleId, length, getGQStateEnum(variant.getGenotype(0).getGQ()).getValue());
-                                    refRangesParquetFileWriter.write(record);
+                                    if (storeCompressedReferences) {
+                                        JSONObject record = GvsReferenceParquetFileWriter.writeCompressed(
+                                                SchemaUtils.encodeCompressedRefBlock(variantChr, localStart, length,
+                                                getGQStateEnum(variant.getGenotype(0).getGQ()).getCompressedValue()),
+                                                sampleId
+                                        );
+                                        refRangesParquetFileWriter.write(record);
+                                    } else {
+                                        JSONObject record = GvsReferenceParquetFileWriter.writeJson(SchemaUtils.encodeLocation(variantChr, localStart), sampleId, length, getGQStateEnum(variant.getGenotype(0).getGQ()).getValue());
+                                        refRangesParquetFileWriter.write(record);
+                                    }
                                     break;
 
                             }
