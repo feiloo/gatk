@@ -1,6 +1,7 @@
 package org.broadinstitute.hellbender.utils.gvs.parquet;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileAlreadyExistsException;
 import org.apache.hadoop.fs.Path;
 import org.apache.parquet.column.ParquetProperties;
 import org.apache.parquet.hadoop.ParquetWriter;
@@ -41,7 +42,7 @@ public class GvsVariantParquetFileWriter extends ParquetWriter<JSONObject> {
             MessageType schema,
             boolean enableDictionary,
             CompressionCodecName codecName
-    ) throws IOException {
+    ) throws FileAlreadyExistsException, IOException {
         super(file, new GvsVariantWriteSupport(schema), codecName, DEFAULT_BLOCK_SIZE, DEFAULT_PAGE_SIZE, enableDictionary, false);
     }
 

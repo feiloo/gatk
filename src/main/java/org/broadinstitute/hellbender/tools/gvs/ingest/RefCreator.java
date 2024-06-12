@@ -3,6 +3,7 @@ package org.broadinstitute.hellbender.tools.gvs.ingest;
 import com.google.protobuf.Descriptors;
 import htsjdk.samtools.SAMSequenceDictionary;
 import htsjdk.variant.variantcontext.VariantContext;
+import org.apache.hadoop.fs.FileAlreadyExistsException;
 import org.apache.hadoop.fs.Path;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -82,6 +83,8 @@ public final class RefCreator {
                         break;
                 }
             }
+        } catch (final FileAlreadyExistsException fs) {
+            throw new UserException("This reference parquet file already exists", fs);
         } catch (final IOException ioex) {
             throw new UserException("Could not create reference range outputs", ioex);
         }
