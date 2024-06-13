@@ -1,0 +1,293 @@
+    <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+      <modelVersion>4.0.0</modelVersion>
+     
+      <groupId>org.broadinstitute.gatk</groupId>
+      <artifactId>gatk</artifactId>
+      <version>4.5.0.0</version>
+      <packaging>jar</packaging>
+
+	<build>
+
+	<plugins>
+	<plugin>
+	    <groupId>org.apache.maven.plugins</groupId>
+	    <artifactId>maven-assembly-plugin</artifactId>
+	    <executions>
+		<execution>
+		    <phase>package</phase>
+		    <goals>
+			<goal>single</goal>
+		    </goals>
+		    <configuration>
+			<archive>
+			<manifest>
+			    <mainClass>
+				org.broadinstitute.hellbender.Main
+			    </mainClass>
+			</manifest>
+			<manifestEntries>
+			  <Multi-Release>true</Multi-Release>
+			</manifestEntries>
+			</archive>
+			<descriptorRefs>
+			    <descriptorRef>jar-with-dependencies</descriptorRef>
+			</descriptorRefs>
+		    </configuration>
+		</execution>
+	    </executions>
+	</plugin>
+	</plugins>
+	</build>
+
+     
+      <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+      </properties>
+
+      <dependencies>
+		<dependency>
+		    <groupId>com.github.samtools</groupId>
+		    <artifactId>htsjdk</artifactId>
+		    <version>4.1.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.google.guava</groupId>
+		    <artifactId>guava</artifactId>
+		    <version>33.1.0-jre</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-math3 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-math3</artifactId>
+		    <version>3.6.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.14.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-core</artifactId>
+		    <version>2.17.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-api</artifactId>
+		    <version>2.17.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-jcl -->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-jcl</artifactId>
+		    <version>2.17.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.genomicsdb/genomicsdb -->
+		<dependency>
+		    <groupId>org.genomicsdb</groupId>
+		    <artifactId>genomicsdb</artifactId>
+		    <version>1.5.3</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.intel.gkl/gkl -->
+		<dependency>
+		    <groupId>com.intel.gkl</groupId>
+		    <artifactId>gkl</artifactId>
+		    <version>0.8.11</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.broadinstitute/barclay -->
+		<dependency>
+		    <groupId>org.broadinstitute</groupId>
+		    <artifactId>barclay</artifactId>
+		    <version>5.0.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.spark/spark-mllib -->
+		<dependency>
+		    <groupId>org.apache.spark</groupId>
+		    <artifactId>spark-mllib_2.12</artifactId>
+		    <version>3.5.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.spark/spark-mllib -->
+		<dependency>
+		    <groupId>org.apache.spark</groupId>
+		    <artifactId>spark-core_2.12</artifactId>
+		    <version>3.5.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.disq-bio/disq -->
+		<dependency>
+		    <groupId>org.disq-bio</groupId>
+		    <artifactId>disq</artifactId>
+		    <version>0.3.8</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.google.cloud/google-cloud-nio -->
+		<dependency>
+		    <groupId>com.google.cloud</groupId>
+		    <artifactId>google-cloud-nio</artifactId>
+		    <version>0.127.8</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/it.unimi.dsi/fastutil -->
+		<dependency>
+		    <groupId>it.unimi.dsi</groupId>
+		    <artifactId>fastutil</artifactId>
+		    <version>7.0.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.ojalgo/ojalgo -->
+		<dependency>
+		    <groupId>org.ojalgo</groupId>
+		    <artifactId>ojalgo</artifactId>
+		    <version>44.0.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.ojalgo/ojalgo-commons-math3 -->
+		<dependency>
+		    <groupId>org.ojalgo</groupId>
+		    <artifactId>ojalgo-commons-math3</artifactId>
+		    <version>1.0.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.github.broadinstitute/picard -->
+		<dependency>
+		    <groupId>com.github.broadinstitute</groupId>
+		    <artifactId>picard</artifactId>
+		    <version>3.1.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/net.grey-panther/natural-comparator -->
+		<dependency>
+		    <groupId>net.grey-panther</groupId>
+		    <artifactId>natural-comparator</artifactId>
+		    <version>1.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.broadinstitute/hdf5-java-bindings -->
+		<dependency>
+		    <groupId>org.broadinstitute</groupId>
+		    <artifactId>hdf5-java-bindings</artifactId>
+		    <version>1.1.0-hdf5_2.11.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.google.cloud/google-cloud-bigquery -->
+		<dependency>
+		    <groupId>com.google.cloud</groupId>
+		    <artifactId>google-cloud-bigquery</artifactId>
+		    <version>2.35.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.jgrapht/jgrapht-core -->
+		<dependency>
+		    <groupId>org.jgrapht</groupId>
+		    <artifactId>jgrapht-core</artifactId>
+		    <version>1.1.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.jgrapht/jgrapht-io -->
+		<dependency>
+		    <groupId>org.jgrapht</groupId>
+		    <artifactId>jgrapht-io</artifactId>
+		    <version>1.1.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.reflections/reflections -->
+		<dependency>
+		    <groupId>org.reflections</groupId>
+		    <artifactId>reflections</artifactId>
+		    <version>0.9.10</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-collections4</artifactId>
+		    <version>4.4</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-compress -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-compress</artifactId>
+		    <version>1.26.2</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-configuration2 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-configuration2</artifactId>
+		    <version>2.9.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc -->
+		<dependency>
+		    <groupId>org.xerial</groupId>
+		    <artifactId>sqlite-jdbc</artifactId>
+		    <version>3.44.1.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.aeonbits.owner/owner -->
+		<dependency>
+		    <groupId>org.aeonbits.owner</groupId>
+		    <artifactId>owner</artifactId>
+		    <version>1.0.9</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.opencsv/opencsv -->
+		<dependency>
+		    <groupId>com.opencsv</groupId>
+		    <artifactId>opencsv</artifactId>
+		    <version>3.4</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.hipparchus/hipparchus-stat -->
+		<dependency>
+		    <groupId>org.hipparchus</groupId>
+		    <artifactId>hipparchus-stat</artifactId>
+		    <version>2.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.broadinstitute/gatk-bwamem-jni -->
+		<dependency>
+		    <groupId>org.broadinstitute</groupId>
+		    <artifactId>gatk-bwamem-jni</artifactId>
+		    <version>1.0.4</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.broadinstitute/gatk-fermilite-jni -->
+		<dependency>
+		    <groupId>org.broadinstitute</groupId>
+		    <artifactId>gatk-fermilite-jni</artifactId>
+		    <version>1.2.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.broadinstitute/http-nio -->
+		<dependency>
+		    <groupId>org.broadinstitute</groupId>
+		    <artifactId>http-nio</artifactId>
+		    <version>1.1.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.google.cloud.bigdataoss/gcs-connector -->
+		<dependency>
+		    <groupId>com.google.cloud.bigdataoss</groupId>
+		    <artifactId>gcs-connector</artifactId>
+		    <version>1.9.4-hadoop3</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
+		<dependency>
+		    <groupId>org.freemarker</groupId>
+		    <artifactId>freemarker</artifactId>
+		    <version>2.3.30</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/gov.nist.math.jama/gov.nist.math.jama -->
+		<dependency>
+		    <groupId>gov.nist.math.jama</groupId>
+		    <artifactId>gov.nist.math.jama</artifactId>
+		    <version>1.1.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.module/jackson-module-scala -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.module</groupId>
+		    <artifactId>jackson-module-scala_2.12</artifactId>
+		    <version>2.9.8</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.google.inject/guice -->
+		<dependency>
+		    <groupId>com.google.inject</groupId>
+		    <artifactId>guice</artifactId>
+		    <version>7.0.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.16.1</version>
+		</dependency>
+      </dependencies>
+    </project>
